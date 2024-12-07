@@ -1,7 +1,8 @@
 const router = require('express').Router();
+let { listClass } = require('../common/global.js');
 const Class = require('../model/class.js');
 
-let listClass = [];
+
 let classId = 0;
 
 // add a class
