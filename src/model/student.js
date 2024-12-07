@@ -5,3 +5,5 @@ class Student {
     this.className = className;
   }
 }
+
+export default Student;

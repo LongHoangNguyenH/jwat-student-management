@@ -4,3 +4,5 @@ class Class {
     this.className = className;
   }
 }
+
+export default Class;
