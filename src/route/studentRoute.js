@@ -35,4 +35,35 @@ router.post('/create', (req, res) => {
   }
 });
 
+// update student
+router.put('/update/:id', (req, res) => {
+  try {
+    const { studentName, className } = req.body;
+    const id = req.params.id; 
+
+    if (className !== '' && listClass.find(cls => cls.className === className) === undefined) {
+      res.status(400).json({ message: 'Class not found' });
+    }else if(className === '' || studentName === '') {
+      return res.status(400).json({ message: 'Class name & Student name is required' });
+    }
+
+    indexStudent = listStudent.findIndex(student => student.id == id);
+
+    if (indexStudent === -1) {
+      return res.status(400).json({ message: 'Student not found' });
+    }
+
+    let updateStudent = listStudent[indexStudent];
+    console.log(updateStudent);
+
+    updateStudent = {studentName, className};
+    console.log(updateStudent);
+
+    res.status(200).json({ message: 'Student updated successfully', data: updateStudent });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: 'Error occurred while updating a student', error: error });
+  }
+});
+
 module.exports = router;
