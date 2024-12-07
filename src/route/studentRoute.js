@@ -66,4 +66,18 @@ router.put('/update/:id', (req, res) => {
   }
 });
 
+//Retrieve a student by id
+router.get('/:id', (req, res) => {
+  try{
+    const id = req.params.id;
+    const selectedStudent = listStudent.find(student => student.id === id);
+    if(!selectedStudent){
+      return res.status(400).json({message: 'Student not found'});
+    }
+    res.status(200).json({message: 'Student found', data: selectedStudent});
+  }catch(error){
+    console.log(error);
+    res.status(400).json({message: 'Error occurred while getting a student', error: error});
+  }
+});
 module.exports = router;
