@@ -80,4 +80,18 @@ router.get('/:id', (req, res) => {
     res.status(400).json({ message: 'Error occurred while getting a student', error: error });
   }
 });
+
+//get all students
+router.get('/', (req, res) => {
+  try {
+    if(listStudent.length === 0) {
+      return res.status(400).json({ message: 'No student found' });
+    }
+    res.status(200).json({ message: 'Students found', data: listStudent });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: 'Error occurred while getting students', error: error });
+  }
+});
+
 module.exports = router;
