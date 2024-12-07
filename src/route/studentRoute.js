@@ -119,16 +119,16 @@ router.get('/class/:className', (req, res) => {
 router.get('/name/:studentName', (req, res) => {
   try {
     const studentName = req.params.studentName;
-    if(studentName === '') {
+    if (studentName === '') {
       return res.status(400).json({ message: 'Student name is required' });
     }
     searchLike = [];
     listStudent.filter(student => {
-      if(student.studentName.toLowerCase().includes(studentName.toLowerCase())) {
+      if (student.studentName.toLowerCase().includes(studentName.toLowerCase())) {
         searchLike.push(student);
       }
-    })
-    res.status(200).json({ message: 'Students found by name', data: searchLike})
+    });
+    res.status(200).json({ message: 'Students found by name', data: searchLike });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: 'Error occurred while getting student by name' });
