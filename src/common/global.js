@@ -1,4 +1,5 @@
 let listClass = [];
 let listStudent = [];
-
-module.exports = { listClass, listStudent };
+let classId = 0;
+let studentId = 0;
+module.exports = { listClass, listStudent, classId, studentId };

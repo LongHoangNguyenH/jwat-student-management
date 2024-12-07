@@ -1,8 +1,7 @@
 const router = require('express').Router();
 let { listClass } = require('../common/global.js');
 const Class = require('../model/class.js');
-
-let classId = 0;
+let {classId} = require('../common/global.js');
 
 // add a class
 router.post('/create', (req, res) => {
