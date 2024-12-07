@@ -84,7 +84,7 @@ router.get('/:id', (req, res) => {
 //get all students
 router.get('/', (req, res) => {
   try {
-    if(listStudent.length === 0) {
+    if (listStudent.length === 0) {
       return res.status(400).json({ message: 'No student found' });
     }
     res.status(200).json({ message: 'Students found', data: listStudent });
