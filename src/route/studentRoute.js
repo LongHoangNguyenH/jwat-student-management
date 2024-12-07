@@ -95,24 +95,24 @@ router.get('/', (req, res) => {
 });
 
 //get students by class
-router.get('/class/:className',(req,res)=>{
-  try{
+router.get('/class/:className', (req, res) => {
+  try {
     let classByName = [];
     const className = req.params.className;
     console.log(classByName);
-    if(classByName === ''){
-      return res.status(400).json({message:'Class name is required'});
+    if (classByName === '') {
+      return res.status(400).json({ message: 'Class name is required' });
     }
     listStudent.filter(student => {
-      if(student.className === className){
+      if (student.className === className) {
         classByName.push(student);
       }
-    })
-    res.status(200).json({message:'Students found by class',data:classByName});
-  }catch(error){
+    });
+    res.status(200).json({ message: 'Students found by class', data: classByName });
+  } catch (error) {
     console.log(error);
-    res.status(400).json({message:'Error occurred while getting students by class',error:error});
+    res.status(400).json({ message: 'Error occurred while getting students by class', error: error });
   }
-})
+});
 
 module.exports = router;
