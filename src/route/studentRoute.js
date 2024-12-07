@@ -10,10 +10,10 @@ router.post('/create', (req, res) => {
   try {
     const { studentName, className, id } = req.body;
 
-    if(listClass.find(cls => cls.className === className) === undefined){
-        res.status(400).json({ message: 'Class not found' });
+    if (listClass.find(cls => cls.className === className) === undefined) {
+      res.status(400).json({ message: 'Class not found' });
     }
-    
+
     for (const student of listStudent) {
       //kiểm tra student id trong list student
       if (student.id === id) {
@@ -27,7 +27,7 @@ router.post('/create', (req, res) => {
 
     const newStudent = new Student(id, studentName, className);
     listStudent.push(newStudent);
-    console.log(listStudent)
+    console.log(listStudent);
     res.status(200).json({ message: 'Student added successfully', data: newStudent });
   } catch (error) {
     console.log(error);
