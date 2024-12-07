@@ -134,4 +134,20 @@ router.get('/name/:studentName', (req, res) => {
     res.status(400).json({ message: 'Error occurred while getting student by name' });
   }
 });
+
+//delete a student
+router.delete('/delete/:id', (req, res) => {
+  try {
+    const id = req.params.id;
+    const indexStudent = listStudent.findIndex(student => student.id === id);
+    if (indexStudent === -1) {
+      return res.status(400).json({ message: 'Student not found' });
+    }
+    listStudent.splice(indexStudent, 1);
+    res.status(200).json({ message: 'Student deleted successfully' });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: 'Error occurred while deleting a student', error: error });
+  }
+});
 module.exports = router;
