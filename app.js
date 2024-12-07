@@ -1,7 +1,11 @@
 const express = require('express');
-
+const classRoute = require('./src/route/classRoute.js')
 const app = express();
 const PORT = 3000;
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use('/class', classRoute);
 
 app.listen(PORT, (error) =>{
     if(!error)
