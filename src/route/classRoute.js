@@ -39,4 +39,27 @@ router.get('/:id', (req, res) => {
   }
 });
 
+//update a class
+router.put('/update/:id', (req, res) => {
+  try {
+    const { className } = req.body;
+    const classId = parseInt(req.params.id, 10);
+    const indexClass = listClass.findIndex((cls) => cls.id == classId);
+
+    if(indexClass === -1){
+      return res.status(400).json({message: 'Class not found'});
+    }
+
+    const updateClass = listClass[indexClass];
+    console.log(updateClass)
+
+    updateClass.className = className;
+    console.log(updateClass);
+    res.status(200).json({message: 'Class updated successfully', data: updateClass});
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: 'Error occurred while updating a class', error: error });
+  }
+});
+
 module.exports = router;
