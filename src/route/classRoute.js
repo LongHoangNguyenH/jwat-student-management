@@ -24,4 +24,19 @@ router.post('/create', (req, res) => {
   }
 });
 
+// get a class 
+router.get('/:id', (req, res) => {
+  try{
+    const classId = parseInt(req.params.id, 10);
+    const getClass = listClass.find((cls) => cls.id === classId);
+    if(!getClass){
+      return res.status(400).json({message: 'Class not found'});
+    }
+    res.status(200).json({message: 'Class found', data: getClass});
+  }catch(error){
+    console.log(error);
+    res.status(400).json({message: 'Error occurred while getting a class', error: error});
+  }
+});
+
 module.exports = router;

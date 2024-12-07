@@ -5,3 +5,5 @@ class Student {
     this.className = className;
   }
 }
+
+module.exports = Student;
