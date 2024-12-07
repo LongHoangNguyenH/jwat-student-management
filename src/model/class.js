@@ -5,4 +5,4 @@ class Class {
   }
 }
 
-export default Class;
+module.exports = Class;

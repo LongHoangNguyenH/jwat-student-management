@@ -6,4 +6,4 @@ class Student {
   }
 }
 
-export default Student;
+module.exports = Student;
