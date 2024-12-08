@@ -1,5 +1,5 @@
 const router = require('express').Router();
-let { listClass } = require('../common/global.js');
+let { listClass, listStudent } = require('../common/global.js');
 const Class = require('../model/class.js');
 let { classId } = require('../common/global.js');
 
@@ -58,6 +58,33 @@ router.put('/update/:id', (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: 'Error occurred while updating a class', error: error });
+  }
+});
+
+//delete a class
+router.delete('/delete/:className', (req, res) => {
+  try {
+    const className = req.params.className;
+    const indexClass = listClass.findIndex(cls => cls.className == className);
+
+    if (indexClass === -1) {
+      return res.status(400).json({ message: 'Class not found' });
+    }
+
+    //check student in class
+    listStudent.forEach(student => {
+      if (student.className === className) {
+        return res.status(400).json({ message: 'Class cannot be deleted, student exist in this class' });
+      }
+    });
+
+    console.log(listStudent);
+
+    listClass.splice(indexClass, 1);
+    res.status(200).json({ message: 'Class deleted successfully' });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: 'Error occurred while deleting a class', error: error });
   }
 });
 
