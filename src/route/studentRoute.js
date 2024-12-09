@@ -2,11 +2,10 @@ const router = require('express').Router();
 const { listStudent, listClass } = require('../common/global.js');
 const Student = require('../model/student.js');
 
-
 router.post('/create', (req, res) => {
   try {
     const { studentName, className, id } = req.body;
-    if(studentName === '' || className === '' || id === ''){
+    if (studentName === '' || className === '' || id === '') {
       res.status(400).json({ message: 'Student name, class name & id is required' });
     }
     // if (listClass.find(cls => cls.className === className) === undefined) {
@@ -16,8 +15,7 @@ router.post('/create', (req, res) => {
     for (const student of listStudent) {
       if (student.id === id || student.studentName.toLowerCase() === studentName.toLowerCase()) {
         return res.status(400).json({ message: `Student already exists in class ${student.className}` });
-      }
-      else if (listClass.find(cls => cls.className === className) === undefined) {
+      } else if (listClass.find(cls => cls.className === className) === undefined) {
         return res.status(400).json({ message: `Class not found` });
       }
     }
