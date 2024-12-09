@@ -8,9 +8,6 @@ router.post('/create', (req, res) => {
     if (studentName === '' || className === '' || id === '') {
       res.status(400).json({ message: 'Student name, class name & id is required' });
     }
-    // if (listClass.find(cls => cls.className === className) === undefined) {
-    //   res.status(400).json({ message: 'Class not found' });
-    // }
 
     for (const student of listStudent) {
       if (student.id === id || student.studentName.toLowerCase() === studentName.toLowerCase()) {
