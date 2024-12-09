@@ -1,8 +1,8 @@
 class Student {
-  constructor(id, studentName, className, classId) {
+  constructor(id, studentName, className) {
     this.id = id;
     this.studentName = studentName;
-    this.classId = classId;
+    this.className = className;
   }
 }
 
