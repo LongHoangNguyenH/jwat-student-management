@@ -48,10 +48,12 @@ router.put('/update/:id', (req, res) => {
     if (indexClass === -1) {
       return res.status(400).json({ message: 'Class not found' });
     }
-
     const updateClass = listClass[indexClass];
-    console.log(updateClass);
-
+    listStudent.forEach(student => {
+      if (student.className === updateClass.className) {
+        student.className = className;
+      }
+    });
     updateClass.className = className;
     console.log(updateClass);
     res.status(200).json({ message: 'Class updated successfully', data: updateClass });
