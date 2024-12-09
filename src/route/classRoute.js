@@ -7,12 +7,13 @@ let { classId } = require('../common/global.js');
 router.post('/create', (req, res) => {
   try {
     const { className } = req.body;
+    let validclassName = className.trim().toLowerCase();
     for (const cls of listClass) {
-      if (cls.className === className) {
+      if (cls.className === validclassName) {
         return res.status(400).json({ message: 'Class already exists' });
       }
     }
-    const newClass = new Class(classId, className);
+    const newClass = new Class(classId, validclassName);
     listClass.push(newClass);
     classId++;
     console.log(listClass, classId);
@@ -42,6 +43,7 @@ router.get('/:id', (req, res) => {
 router.put('/update/:id', (req, res) => {
   try {
     const { className } = req.body;
+    let validUpdateClassName = className.trim().toLowerCase();
     const classId = parseInt(req.params.id, 10);
     const indexClass = listClass.findIndex(cls => cls.id == classId);
 
@@ -52,7 +54,13 @@ router.put('/update/:id', (req, res) => {
     const updateClass = listClass[indexClass];
     console.log(updateClass);
 
-    updateClass.className = className;
+    listStudent.forEach(student => {
+      if (student.className === updateClass.className) {
+        student.className = validUpdateClassName;
+      }
+    });
+    updateClass.className = validUpdateClassName;
+
     console.log(updateClass);
     res.status(200).json({ message: 'Class updated successfully', data: updateClass });
   } catch (error) {
@@ -62,10 +70,10 @@ router.put('/update/:id', (req, res) => {
 });
 
 //delete a class
-router.delete('/delete/:className', (req, res) => {
+router.delete('/delete/:id', (req, res) => {
   try {
-    const className = req.params.className;
-    const indexClass = listClass.findIndex(cls => cls.className == className);
+    const classId = req.params.id;
+    const indexClass = listClass.findIndex(cls => cls.id == classId);
 
     if (indexClass === -1) {
       return res.status(400).json({ message: 'Class not found' });
@@ -73,7 +81,7 @@ router.delete('/delete/:className', (req, res) => {
 
     //check student in class
     listStudent.forEach(student => {
-      if (student.className === className) {
+      if (student.classId === classId) {
         return res.status(400).json({ message: 'Class cannot be deleted, student exist in this class' });
       }
     });
