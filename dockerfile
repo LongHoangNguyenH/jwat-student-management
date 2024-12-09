@@ -1,13 +1,15 @@
-FROM node:18.1-alpine
+FROM node:22.3.0-alpine
 
-WORKDIR /home/app
+WORKDIR /home
 
-COPY ./ /home/app/
+COPY package*.json ./
 
 RUN npm install
 
+COPY . .
+
 ENV PORT=3000
 
-EXPOSE 3000
+EXPOSE 3001
 
 CMD [ "node","app.js" ]
