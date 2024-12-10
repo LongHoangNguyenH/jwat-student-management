@@ -1,16 +1,14 @@
 FROM node:22.3.0-alpine
 
-WORKDIR /home
+COPY . /home
 
-COPY package*.json ./
+WORKDIR /home
 
 RUN npm install
 
-COPY . .
-
 ENV PORT=3000
 
-EXPOSE 3001
+EXPOSE 3000
 
 VOLUME [ "nodejs-data:/data/db" ]
 
