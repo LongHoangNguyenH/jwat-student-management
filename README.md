@@ -28,8 +28,8 @@ Base URL: `/students`
 
 |Method | Endpoint       | Request Body                                                             |
 |-------|----------------|--------------------------------------------------------------------------|
-|POST   |`/`             |`{ "id" : "student id", "studentName" : "name", "className": "name" }`    |
-|PUT    |`/:id`          |`{ "id" : "new student id", "studentName" : "name", "className": "name" }`|
+|POST   |`/`             |`{  "studentName" : "name", "className": "name" }`    |
+|PUT    |`/:id`          |`{  "studentName" : "name", "className": "name" }`|
 |DELETE |`/:id`          |                          None                                            |
 |GET    |`/`             |                          None                                            |
 |GET    |`/:id`          |                          None                                            |
