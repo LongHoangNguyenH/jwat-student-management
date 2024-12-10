@@ -64,15 +64,16 @@ router.put('/:id', (req, res) => {
 });
 
 //delete a class
-router.delete('/:className', (req, res) => {
+router.delete('/:id', (req, res) => {
   try {
-    const className = req.params.className;
-    const indexClass = listClass.findIndex(cls => cls.className == className);
-
+    const id = req.params.id;
+    console.log(listClass);
+    const indexClass = listClass.findIndex(cls => cls.id == id);
     if (indexClass === -1) {
       return res.status(400).json({ message: 'Class not found' });
     }
-
+    
+    const className = listClass[indexClass].className;
     //check student in class
     listStudent.forEach(student => {
       if (student.className === className) {
@@ -80,13 +81,11 @@ router.delete('/:className', (req, res) => {
       }
     });
 
-    console.log(listStudent);
-
     listClass.splice(indexClass, 1);
-    res.status(200).json({ message: 'Class deleted successfully' });
+    return res.status(200).json({ message: 'Class deleted successfully' });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ message: 'Error occurred while deleting a class', error: error });
+    return res.status(400).json({ message: 'Error occurred while deleting a class', error: error });
   }
 });
 
