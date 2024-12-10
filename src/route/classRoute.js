@@ -69,17 +69,17 @@ router.delete('/:id', (req, res) => {
     const id = req.params.id;
     console.log(listClass);
     const indexClass = listClass.findIndex(cls => cls.id == id);
-    if (indexClass === -1) {
+    if (indexClass == -1) {
       return res.status(400).json({ message: 'Class not found' });
     }
 
     const className = listClass[indexClass].className;
     //check student in class
-    listStudent.forEach(student => {
-      if (student.className === className) {
-        return res.status(400).json({ message: 'Class cannot be deleted, student exist in this class' });
-      }
-    });
+
+    const isStudentInClass = listStudent.some(student => student.className === className);
+    if (isStudentInClass) {
+      return res.status(400).json({ message: 'There are students in this class' });
+    }
 
     listClass.splice(indexClass, 1);
     return res.status(200).json({ message: 'Class deleted successfully' });
