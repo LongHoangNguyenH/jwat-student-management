@@ -4,7 +4,7 @@ const Class = require('../model/class.js');
 let { classId } = require('../common/global.js');
 
 // add a class
-router.post('/create', (req, res) => {
+router.post('/', (req, res) => {
   try {
     const { className } = req.body;
     for (const cls of listClass) {
@@ -39,7 +39,7 @@ router.get('/:id', (req, res) => {
 });
 
 //update a class
-router.put('/update/:id', (req, res) => {
+router.put('/:id', (req, res) => {
   try {
     const { className } = req.body;
     const classId = parseInt(req.params.id, 10);
@@ -64,7 +64,7 @@ router.put('/update/:id', (req, res) => {
 });
 
 //delete a class
-router.delete('/delete/:className', (req, res) => {
+router.delete('/:className', (req, res) => {
   try {
     const className = req.params.className;
     const indexClass = listClass.findIndex(cls => cls.className == className);

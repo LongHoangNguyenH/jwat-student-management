@@ -2,18 +2,20 @@ const router = require('express').Router();
 const { listStudent, listClass } = require('../common/global.js');
 const Student = require('../model/student.js');
 
-router.post('/create', (req, res) => {
+router.post('/', (req, res) => {
   try {
     const { studentName, className, id } = req.body;
     if (studentName === '' || className === '' || id === '') {
       res.status(400).json({ message: 'Student name, class name & id is required' });
     }
 
+    if (listClass.find(cls => cls.className == className) === undefined) {
+      return res.status(400).json({ message: `Class not found` });
+    }
+    
     for (const student of listStudent) {
-      if (student.id === id || student.studentName.toLowerCase() === studentName.toLowerCase()) {
+      if (student.id === id || student.studentName === studentName) {
         return res.status(400).json({ message: `Student already exists in class ${student.className}` });
-      } else if (listClass.find(cls => cls.className === className) === undefined) {
-        return res.status(400).json({ message: `Class not found` });
       }
     }
 
@@ -28,18 +30,18 @@ router.post('/create', (req, res) => {
 });
 
 // update student
-router.put('/update/:id', (req, res) => {
+router.put('/:id', (req, res) => {
   try {
-    const { studentName, className } = req.body;
-    const id = req.params.id;
+    let { studentName, className, id } = req.body;
+    const currentId = req.params.id;
 
     if (className !== '' && listClass.find(cls => cls.className === className) === undefined) {
       res.status(400).json({ message: 'Class not found' });
-    } else if (className === '' || studentName === '') {
-      return res.status(400).json({ message: 'Class name & Student name is required' });
+    } else if (className === '' && studentName === '' && id === '') {
+      return res.status(400).json({ message: 'Enter the field you want to update' });
     }
 
-    indexStudent = listStudent.findIndex(student => student.id == id);
+    indexStudent = listStudent.findIndex(student => student.id == currentId);
 
     if (indexStudent === -1) {
       return res.status(400).json({ message: 'Student not found' });
@@ -48,10 +50,16 @@ router.put('/update/:id', (req, res) => {
     let updateStudent = listStudent[indexStudent];
     console.log(updateStudent);
 
-    updateStudent = { studentName, className };
-    console.log(updateStudent);
+    if (studentName === '') studentName = updateStudent.studentName;
+    if (className === '') className = updateStudent.className;
+    if (id === '') id = updateStudent.id;
+    console.log(studentName, className, id);
 
-    res.status(200).json({ message: 'Student updated successfully', data: updateStudent });
+    listStudent[indexStudent] = { studentName, className, id };
+
+    console.log('final', listStudent[indexStudent]);
+
+    res.status(200).json({ message: 'Student updated successfully', data: listStudent[indexStudent] });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: 'Error occurred while updating a student', error: error });
@@ -107,7 +115,7 @@ router.get('/class/:className', (req, res) => {
   }
 });
 
-//get student by nam
+//get student by name
 router.get('/name/:studentName', (req, res) => {
   try {
     const studentName = req.params.studentName;
@@ -128,7 +136,7 @@ router.get('/name/:studentName', (req, res) => {
 });
 
 //delete a student
-router.delete('/delete/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
   try {
     const id = req.params.id;
     const indexStudent = listStudent.findIndex(student => student.id === id);

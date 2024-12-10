@@ -6,8 +6,8 @@ const bodyParser = require('body-parser');
 const studentRoute = require('./src/route/studentRoute.js');
 
 app.use(bodyParser.json());
-app.use('/class', classRoute);
-app.use('/student', studentRoute);
+app.use('/classes', classRoute);
+app.use('/students', studentRoute);
 
 app.get('/', (req, res) => {
   res.send('Hello World');
