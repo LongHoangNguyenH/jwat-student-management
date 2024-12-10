@@ -1,12 +1,12 @@
 const router = require('express').Router();
-const { listStudent, listClass } = require('../common/global.js');
+let { listStudent, listClass, studentId } = require('../common/global.js');
 const Student = require('../model/student.js');
 
 router.post('/', (req, res) => {
   try {
-    const { studentName, className, id } = req.body;
-    if (studentName === '' || className === '' || id === '') {
-      res.status(400).json({ message: 'Student name, class name & id is required' });
+    const { studentName, className} = req.body;
+    if (studentName === '' || className === '') {
+      res.status(400).json({ message: 'Student name, class name is required' });
     }
 
     if (listClass.find(cls => cls.className == className) === undefined) {
@@ -19,8 +19,9 @@ router.post('/', (req, res) => {
       }
     }
 
-    const newStudent = new Student(id, studentName, className);
+    const newStudent = new Student(studentId, studentName, className);
     listStudent.push(newStudent);
+    studentId++;
     console.log(listStudent);
     res.status(200).json({ message: 'Student added successfully', data: newStudent });
   } catch (error) {
@@ -32,12 +33,12 @@ router.post('/', (req, res) => {
 // update student
 router.put('/:id', (req, res) => {
   try {
-    let { studentName, className, id } = req.body;
+    let { studentName, className } = req.body;
     const currentId = req.params.id;
 
     if (className !== '' && listClass.find(cls => cls.className === className) === undefined) {
       res.status(400).json({ message: 'Class not found' });
-    } else if (className === '' && studentName === '' && id === '') {
+    } else if (className === '' && studentName === '' ) {
       return res.status(400).json({ message: 'Enter the field you want to update' });
     }
 
@@ -48,14 +49,13 @@ router.put('/:id', (req, res) => {
     }
 
     let updateStudent = listStudent[indexStudent];
-    console.log(updateStudent);
 
     if (studentName === '') studentName = updateStudent.studentName;
     if (className === '') className = updateStudent.className;
-    if (id === '') id = updateStudent.id;
-    console.log(studentName, className, id);
+  
+    console.log(studentName, className);
 
-    listStudent[indexStudent] = { studentName, className, id };
+    listStudent[indexStudent] = { studentName, className };
 
     console.log('final', listStudent[indexStudent]);
 
