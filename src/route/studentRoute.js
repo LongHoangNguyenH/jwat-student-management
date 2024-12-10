@@ -12,7 +12,7 @@ router.post('/', (req, res) => {
     if (listClass.find(cls => cls.className == className) === undefined) {
       return res.status(400).json({ message: `Class not found` });
     }
-    
+
     for (const student of listStudent) {
       if (student.id === id || student.studentName === studentName) {
         return res.status(400).json({ message: `Student already exists in class ${student.className}` });
