@@ -72,7 +72,7 @@ router.delete('/:id', (req, res) => {
     if (indexClass === -1) {
       return res.status(400).json({ message: 'Class not found' });
     }
-    
+
     const className = listClass[indexClass].className;
     //check student in class
     listStudent.forEach(student => {
