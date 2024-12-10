@@ -12,4 +12,6 @@ ENV PORT=3000
 
 EXPOSE 3001
 
+VOLUME [ "nodejs-data:/data/db" ]
+
 CMD [ "node","app.js" ]
